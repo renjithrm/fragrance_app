@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fragrance_app/ui/common/app_colors.dart';
 import 'package:fragrance_app/ui/common/ui_helpers.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProductCard extends StatelessWidget {
   final String? image;
@@ -8,6 +9,9 @@ class ProductCard extends StatelessWidget {
   final String price;
   final String discountedPrice;
   final MaterialColor? dummyColor;
+  final String? offerText;
+  final String? perUnitLabel;
+  final bool? wishlisted;
 
   const ProductCard({
     super.key,
@@ -16,6 +20,9 @@ class ProductCard extends StatelessWidget {
     required this.price,
     required this.discountedPrice,
     this.dummyColor,
+    this.offerText,
+    this.perUnitLabel,
+    this.wishlisted,
   });
 
   @override
@@ -38,12 +45,12 @@ class ProductCard extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: image != null
-                        ? Image.network(
-                            image!,
+                        ? CachedNetworkImage(
+                            imageUrl: image!,
                             height: 160,
                             width: double.infinity,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
+                            errorWidget: (context, url, error) {
                               return _buildDummyImage();
                             },
                           )
@@ -80,7 +87,7 @@ class ProductCard extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: ' per Dozen',
+                          text: perUnitLabel ?? ' per Dozen',
                           style: getTextStyle(
                             fontSize: 10,
                             color: Colors.black,
@@ -147,9 +154,9 @@ class ProductCard extends StatelessWidget {
                       topRight: Radius.circular(20),
                       bottomRight: Radius.circular(20)),
                 ),
-                child: const Text(
-                  '40% OFF',
-                  style: TextStyle(
+                child: Text(
+                  offerText ?? '40% OFF',
+                  style: const TextStyle(
                     color: kcCardOfferTextColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
@@ -161,7 +168,11 @@ class ProductCard extends StatelessWidget {
               top: 0,
               right: 0,
               child: IconButton(
-                icon: const Icon(Icons.favorite_border),
+                icon: Icon(
+                  (wishlisted ?? false)
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                ),
                 color: Colors.black,
                 padding: EdgeInsets.zero,
                 style:

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:stacked/stacked.dart';
-import 'package:fragrance_app/ui/common/ui_helpers.dart';
 
 import 'startup_viewmodel.dart';
 
@@ -14,29 +13,51 @@ class StartupView extends StackedView<StartupViewModel> {
     StartupViewModel viewModel,
     Widget? child,
   ) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8EDEB), // Soft pastel background
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'STACKED',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
+            // Perfume bottle image placeholder
+            SizedBox(
+              height: 120,
+              child: Image.asset(
+                'assets/images/categories_placeholder.png', // Replace with perfume bottle asset when available
+                fit: BoxFit.contain,
+              ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Loading ...', style: TextStyle(fontSize: 16)),
-                horizontalSpaceSmall,
-                SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    color: Colors.black,
-                    strokeWidth: 6,
-                  ),
-                ),
-              ],
+            const SizedBox(height: 24),
+            // App name/title
+            const Text(
+              'Fragrance App',
+              style: TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Serif',
+                color: Color(0xFF6D6875), // Elegant deep color
+                letterSpacing: 2,
+              ),
+            ),
+            const SizedBox(height: 8),
+            // Tagline
+            const Text(
+              'Unveil Your Signature Scent…',
+              style: TextStyle(
+                fontSize: 18,
+                fontStyle: FontStyle.italic,
+                color: Color(0xFFB5838D),
+              ),
+            ),
+            const SizedBox(height: 32),
+            // Themed spinner only, no text
+            const SizedBox(
+              width: 36,
+              height: 36,
+              child: CircularProgressIndicator(
+                color: Color(0xFFB5838D),
+                strokeWidth: 4,
+              ),
             ),
           ],
         ),

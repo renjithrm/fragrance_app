@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fragrance_app/ui/common/ui_helpers.dart';
-import 'package:fragrance_app/ui/views/home/home_viewmodel.dart';
+import 'package:fragrance_app/models/home/category_model.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
@@ -8,7 +8,7 @@ class CategoryCard extends StatelessWidget {
     required this.category,
   });
 
-  final CategoryItem category;
+  final CategoryModel category;
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +19,28 @@ class CategoryCard extends StatelessWidget {
           width: 75,
           height: 75,
           decoration: BoxDecoration(
-            color: category.color,
+            color: randomLightColor(),
             shape: BoxShape.circle,
           ),
           child: Center(
-            child: Image.asset(
-              'assets/images/categories_placeholder.png',
+            child: Image.network(
+              category.image,
               width: 50,
               height: 55,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'assets/images/categories_placeholder.png',
+                  width: 50,
+                  height: 55,
+                );
+              },
             ),
           ),
         ),
         const SizedBox(height: 8),
         // The category title
         Text(
-          category.title,
+          category.name,
           style: getTextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w500,

@@ -2,6 +2,10 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:fragrance_app/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:fragrance_app/services/shared_preferences_service.dart';
+import 'package:fragrance_app/services/base_api_service.dart';
+import 'package:fragrance_app/services/auth_service.dart';
+import 'package:fragrance_app/services/home_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -12,14 +16,23 @@ import 'test_helpers.mocks.dart';
     MockSpec<NavigationService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<BottomSheetService>(onMissingStub: OnMissingStub.returnDefault),
     MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
-    // @stacked-mock-spec
+    MockSpec<SharedPreferencesService>(
+        onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<BaseApiService>(onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<AuthService>(onMissingStub: OnMissingStub.returnDefault),
+    MockSpec<HomeService>(onMissingStub: OnMissingStub.returnDefault),
+// @stacked-mock-spec
   ],
 )
 void registerServices() {
   getAndRegisterNavigationService();
   getAndRegisterBottomSheetService();
   getAndRegisterDialogService();
-  // @stacked-mock-register
+  getAndRegisterSharedPreferencesService();
+  getAndRegisterBaseApiService();
+  getAndRegisterAuthService();
+  getAndRegisterHomeService();
+// @stacked-mock-register
 }
 
 MockNavigationService getAndRegisterNavigationService() {
@@ -76,6 +89,33 @@ MockDialogService getAndRegisterDialogService() {
   return service;
 }
 
+MockSharedPreferencesService getAndRegisterSharedPreferencesService() {
+  _removeRegistrationIfExists<SharedPreferencesService>();
+  final service = MockSharedPreferencesService();
+  locator.registerSingleton<SharedPreferencesService>(service);
+  return service;
+}
+
+MockBaseApiService getAndRegisterBaseApiService() {
+  _removeRegistrationIfExists<BaseApiService>();
+  final service = MockBaseApiService();
+  locator.registerSingleton<BaseApiService>(service);
+  return service;
+}
+
+MockAuthService getAndRegisterAuthService() {
+  _removeRegistrationIfExists<AuthService>();
+  final service = MockAuthService();
+  locator.registerSingleton<AuthService>(service);
+  return service;
+}
+
+MockHomeService getAndRegisterHomeService() {
+  _removeRegistrationIfExists<HomeService>();
+  final service = MockHomeService();
+  locator.registerSingleton<HomeService>(service);
+  return service;
+}
 // @stacked-mock-create
 
 void _removeRegistrationIfExists<T extends Object>() {

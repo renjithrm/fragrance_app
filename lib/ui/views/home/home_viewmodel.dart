@@ -1,86 +1,38 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:fragrance_app/app/app.bottomsheets.dart';
-import 'package:fragrance_app/app/app.dialogs.dart';
 import 'package:fragrance_app/app/app.locator.dart';
-import 'package:fragrance_app/ui/common/app_strings.dart';
+import 'package:fragrance_app/app/app.dialogs.dart';
+import 'package:fragrance_app/models/home/home_field.dart';
+import 'package:fragrance_app/models/home/home_response.dart';
+import 'package:fragrance_app/services/home_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends BaseViewModel {
+  final _homeApiService = locator<HomeService>();
   final _dialogService = locator<DialogService>();
-  final _bottomSheetService = locator<BottomSheetService>();
 
-  String get counterLabel => 'Counter is: $_counter';
+  HomeResponse? _homeResponse;
 
-  int _counter = 0;
+  Future getView() async {
+    setBusy(true);
+    _homeResponse = await _homeApiService.fetchHome();
+    setBusy(false);
 
-  void incrementCounter() {
-    _counter++;
-    rebuildUi();
+    if (_homeResponse == null) {
+      // Show error dialog
+      await _dialogService.showCustomDialog(
+        variant: DialogType.infoAlert,
+        title: 'Error',
+        description: 'Failed to load home data. Please try again.',
+      );
+    }
+
+    notifyListeners();
   }
 
-  void showDialog() {
-    _dialogService.showCustomDialog(
-      variant: DialogType.infoAlert,
-      title: 'Stacked Rocks!',
-      description: 'Give stacked $_counter stars on Github',
-    );
-  }
-
-  void showBottomSheet() {
-    _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.notice,
-      title: ksHomeBottomSheetTitle,
-      description: ksHomeBottomSheetDescription,
-    );
-  }
-
-  final List<Map<String, String>> brandData = [
-    {
-      'name': 'Hermès',
-      'imageUrl':
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Herm%C3%A8s_logo.svg/100px-Herm%C3%A8s_logo.svg.png'
-    },
-    {
-      'name': 'Chanel',
-      'imageUrl':
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Chanel_logo.svg/100px-Chanel_logo.svg.png'
-    },
-    {
-      'name': 'Jo Malone',
-      'imageUrl':
-          'https://upload.wikimedia.org/wikipedia/en/thumb/f/fa/Jo_Malone_logo.svg/100px-Jo_Malone_logo.svg.png'
-    },
-    {
-      'name': 'Louis Vuitton',
-      'imageUrl':
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Louis_Vuitton_logo_and_wordmark.svg/100px-Louis_Vuitton_logo_and_wordmark.svg.png'
-    },
-    {
-      'name': 'Gucci',
-      'imageUrl':
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Gucci_logo.svg/100px-Gucci_logo.svg.png'
-    },
-    {
-      'name': 'Prada',
-      'imageUrl':
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Prada-Logo.svg/100px-Prada-Logo.svg.png'
-    },
-  ];
-
-// List of category items
-  final List<CategoryItem> categories = [
-    CategoryItem('Citrus', Colors.yellow.shade100),
-    CategoryItem('Aromatic', Colors.blue.shade100),
-    CategoryItem('Floral', Colors.pink.shade100),
-    CategoryItem('Green', Colors.green.shade100),
-    CategoryItem('Green', Colors.green.shade100),
-    CategoryItem('Floral', Colors.pink.shade100),
-    CategoryItem('Citrus', Colors.yellow.shade100),
-    CategoryItem('Aromatic', Colors.blue.shade100),
-  ];
+  List<HomeField> get homeFields => _homeResponse?.homeFields ?? [];
 }
 
 class CategoryItem {

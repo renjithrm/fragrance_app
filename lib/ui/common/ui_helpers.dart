@@ -127,3 +127,11 @@ TextStyle getTextStyle({
     decorationThickness: decorationThickness,
   );
 }
+
+Color randomLightColor() {
+  final Random random = Random();
+  int r = 200 + random.nextInt(56);
+  int g = 200 + random.nextInt(56);
+  int b = 200 + random.nextInt(56);
+  return Color.fromARGB(255, r, g, b);
+}

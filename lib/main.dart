@@ -3,6 +3,7 @@ import 'package:fragrance_app/app/app.bottomsheets.dart';
 import 'package:fragrance_app/app/app.dialogs.dart';
 import 'package:fragrance_app/app/app.locator.dart';
 import 'package:fragrance_app/app/app.router.dart';
+import 'package:fragrance_app/services/shared_preferences_service.dart';
 import 'package:fragrance_app/ui/common/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -12,6 +13,9 @@ Future<void> main() async {
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
+  final sharedPrefService = locator<SharedPreferencesService>();
+  await sharedPrefService.init();
+
   runApp(const MainApp());
 }
 
