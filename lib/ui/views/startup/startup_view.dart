@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:stacked/stacked.dart';
 
 import 'startup_viewmodel.dart';
+import '../../common/app_strings.dart';
 
 class StartupView extends StackedView<StartupViewModel> {
   const StartupView({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class StartupView extends StackedView<StartupViewModel> {
             const SizedBox(height: 24),
             // App name/title
             const Text(
-              'Fragrance App',
+              ksAppName,
               style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
@@ -42,7 +43,7 @@ class StartupView extends StackedView<StartupViewModel> {
             const SizedBox(height: 8),
             // Tagline
             const Text(
-              'Unveil Your Signature Scent…',
+              ksAppTagline,
               style: TextStyle(
                 fontSize: 18,
                 fontStyle: FontStyle.italic,
