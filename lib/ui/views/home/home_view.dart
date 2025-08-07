@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-import 'package:fragrance_app/ui/common/app_colors.dart';
 import 'package:fragrance_app/ui/common/ui_helpers.dart';
+import 'package:fragrance_app/ui/views/home/widgets/brand_carousel.dart';
+import 'package:fragrance_app/ui/views/home/widgets/categories_section.dart';
+import 'package:fragrance_app/ui/views/home/widgets/latest_product_section.dart';
+import 'package:fragrance_app/ui/views/home/widgets/new_arrivals_section.dart';
+import 'package:fragrance_app/ui/views/home/widgets/product_tile_section.dart';
+import 'package:fragrance_app/ui/widgets/common/app_bar_widget/app_bar_widget.dart';
+import 'package:fragrance_app/ui/widgets/common/dynamic_banner_card/dynamic_banner_card.dart';
+import 'package:fragrance_app/ui/widgets/common/search_scan_bar/search_scan_bar.dart';
+import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';
 
@@ -11,61 +18,47 @@ class HomeView extends StackedView<HomeViewModel> {
   @override
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
     return Scaffold(
+      appBar: const AppBarWidget(userName: 'John Doe'),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                verticalSpaceLarge,
-                Column(
-                  children: [
-                    const Text(
-                      'Hello, STACKED!',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    verticalSpaceMedium,
-                    MaterialButton(
-                      color: Colors.black,
-                      onPressed: viewModel.incrementCounter,
-                      child: Text(
-                        viewModel.counterLabel,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MaterialButton(
-                      color: kcDarkGreyColor,
-                      onPressed: viewModel.showDialog,
-                      child: const Text(
-                        'Show Dialog',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    MaterialButton(
-                      color: kcDarkGreyColor,
-                      onPressed: viewModel.showBottomSheet,
-                      child: const Text(
-                        'Show Bottom Sheet',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+          child: Column(
+        children: [
+          const SearchScanBar(),
+          Expanded(
+              child: ListView(
+            padding: const EdgeInsets.all(12.0),
+            children: [
+              const DynamicBannerCard(
+                  imageUrl:
+                      'https://i.pinimg.com/736x/f5/6a/b2/f56ab2dd0fd775a6cf730b38087ad2b2.jpg'),
+              verticalSpace(10),
+              BrandCarousel(brandData: viewModel.brandData),
+              verticalSpace(10),
+              CategoriesSection(categories: viewModel.categories),
+              verticalSpace(20),
+              DynamicBannerCard(
+                imageUrl:
+                    'https://i.pinimg.com/736x/f5/6a/b2/f56ab2dd0fd775a6cf730b38087ad2b2.jpg',
+                buttonText: 'Create RFQ',
+                onButtonPressed: () {},
+                title: 'Request for quote',
+              ),
+              verticalSpace(10),
+              const NewArrivalsSection(),
+              verticalSpace(10),
+              const ProductTileSection(),
+              verticalSpace(10),
+              const LatestProductSection(),
+              verticalSpace(20),
+              const DynamicBannerCard(
+                imageUrl:
+                    'https://i.pinimg.com/736x/f5/6a/b2/f56ab2dd0fd775a6cf730b38087ad2b2.jpg',
+              ),
+              verticalSpace(10),
+              const LatestProductSection(),
+            ],
+          ))
+        ],
+      )),
     );
   }
 

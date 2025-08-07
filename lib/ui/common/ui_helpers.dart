@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const double _tinySize = 5.0;
 const double _smallSize = 10.0;
@@ -87,4 +88,42 @@ double getResponsiveFontSize(
   );
 
   return responsiveSize;
+}
+
+TextStyle greetingTestStyle({
+  Color? color,
+  double? fontSize,
+  FontWeight? fontWeight,
+  FontStyle? fontStyle,
+  TextDecoration? decoration,
+}) {
+  return GoogleFonts.montserrat(
+    color: color,
+    fontSize: fontSize,
+    fontStyle: fontStyle,
+    fontWeight: fontWeight,
+    decoration: decoration,
+  );
+}
+
+TextStyle getTextStyle({
+  Color? color,
+  double? fontSize,
+  FontWeight? fontWeight,
+  FontStyle? fontStyle,
+  TextDecoration? decoration,
+  double? height,
+  Color? decorationColor,
+  double? decorationThickness,
+}) {
+  return GoogleFonts.poppins(
+    color: color,
+    fontSize: fontSize,
+    fontStyle: fontStyle,
+    fontWeight: fontWeight,
+    decoration: decoration,
+    height: height,
+    decorationColor: decorationColor,
+    decorationThickness: decorationThickness,
+  );
 }
