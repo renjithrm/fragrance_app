@@ -29,6 +29,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 205,
+      height: 320, // Fixed height for the entire card
       child: Card(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -57,12 +58,17 @@ class ProductCard extends StatelessWidget {
                         : _buildDummyImage(),
                   ),
                   verticalSpace(12),
-                  Text(
-                    name,
-                    style: getTextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.normal,
+                  SizedBox(
+                    height: 40, // Fixed height for product name
+                    child: Text(
+                      name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: getTextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.normal,
+                      ),
                     ),
                   ),
                   verticalSpace(4),

@@ -1,5 +1,6 @@
 import 'package:fragrance_app/app/app.dialogs.dart';
 import 'package:fragrance_app/services/auth_service.dart';
+import 'package:fragrance_app/services/shared_preferences_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:fragrance_app/app/app.locator.dart';
 import 'package:fragrance_app/app/app.router.dart';
@@ -9,18 +10,23 @@ class StartupViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _dialogService = locator<DialogService>();
   final _authService = locator<AuthService>();
+  final _preference = locator<SharedPreferencesService>();
 
   Future runStartupLogic() async {
-    final (success, message) = await _authService.anonymousLogin();
-    if (success) {
+    if (_preference.hasAuthToken) {
       _navigationService.replaceWithHomeView();
     } else {
-      // Show error dialog
-      await _dialogService.showCustomDialog(
-        variant: DialogType.infoAlert,
-        title: 'Error',
-        description: 'Failed to load home data. Please try again.',
-      );
+      final (success, message) = await _authService.anonymousLogin();
+      if (success) {
+        _navigationService.replaceWithHomeView();
+      } else {
+        // Show error dialog
+        await _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: 'Error',
+          description: 'Failed to load home data. Please try again.',
+        );
+      }
     }
   }
 }
